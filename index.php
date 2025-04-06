@@ -12,7 +12,7 @@
             color: #333;
         }
         header {
-            background-color:rgb(167, 199, 231);
+            background-color:rgb(119, 158, 203);
             color: white;
             padding: 20px;
             text-align: left;
@@ -43,7 +43,7 @@
             height: 80px;
             font-size: 18px;
             font-weight: bold;
-            background-color:rgb(167, 199, 231);
+            background-color:rgb(119, 158, 203);
             border: none;
             cursor: pointer;
             border-radius: 8px;
@@ -51,10 +51,10 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color:rgb(167, 199, 231);
+            background-color:rgb(119, 158, 203);
         }
         button:active {
-            background-color:rgb(167, 199, 231);
+            background-color:rgb(119, 158, 203);
         }
     </style>
 </head>
