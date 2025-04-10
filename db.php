@@ -1,12 +1,30 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "healthcare_data";
+class Database {
+    private $host = 'localhost';
+    private $db_name = 'healthcare_data';
+    private $username = 'root';
+    private $password = '';
+    private $conn;
 
-$conn = new mysqli($host, $user, $password, $database);
+    public function __construct() {
+        $this->connect();
+    }
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    private function connect() {
+        try {
+            $this->conn = new PDO(
+                "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4",
+                $this->username,
+                $this->password
+            );
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
+        }
+    }
+
+    public function getConnection() {
+        return $this->conn;
+    }
 }
 ?>
