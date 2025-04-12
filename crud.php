@@ -38,6 +38,12 @@ class Crud {
         return $stmt->execute([$id]);
     }
 
+    //  // Call the DeletePatient stored procedure
+    //  public function delete($id) {
+    //     $stmt = $this->conn->prepare("CALL DeletePatient(?)");
+    //     return $stmt->execute([$id]);
+    // }
+
     // Get all patients
     public function getAll() {
         $stmt = $this->conn->prepare("SELECT * FROM patients");
