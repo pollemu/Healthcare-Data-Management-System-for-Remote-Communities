@@ -1,6 +1,7 @@
 <?php
 require_once '../crud.php';
 
+
 $crud = new Crud();
 $patients = $crud->getAll();
 ?>
