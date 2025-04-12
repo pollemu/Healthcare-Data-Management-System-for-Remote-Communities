@@ -10,10 +10,10 @@ class Crud {
     }
 
     // Create a new patient
-    public function create($first_name, $last_name, $age, $sex, $contact, $address, $blood) {
-        $stmt = $this->conn->prepare("INSERT INTO patients (first_name, last_name, age, sex, contact_number, address, blood_type) 
-                                     VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$first_name, $last_name, $age, $sex, $contact, $address, $blood]);
+    public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood) {
+        $stmt = $this->conn->prepare("INSERT INTO patients (first_name, middle_name, last_name, age, sex, contact_number, address, blood_type) 
+                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood]);
     }
 
     // Read a patient by ID
@@ -24,11 +24,11 @@ class Crud {
     }
 
     // Update a patient's details
-    public function update($id, $first_name, $last_name, $age, $sex, $contact, $address, $blood) {
-        $stmt = $this->conn->prepare("UPDATE patients SET first_name = ?, last_name = ?, age = ?, sex = ?, 
+    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood) {
+        $stmt = $this->conn->prepare("UPDATE patients SET first_name = ?, middle_name = ?, last_name = ?, age = ?, sex = ?, 
                                       contact_number = ?, address = ?, blood_type = ?, updated_at = CURRENT_TIMESTAMP 
                                       WHERE patient_id = ?");
-        return $stmt->execute([$first_name, $last_name, $age, $sex, $contact, $address, $blood, $id]);
+        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $id]);
     }
 
     // Delete a patient by ID
