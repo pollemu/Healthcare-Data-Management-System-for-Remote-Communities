@@ -15,12 +15,6 @@ class Crud {
                                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo]);
     }
-
-    // // Call the CreatePatient stored procedure
-    // public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
-    //     $stmt = $this->conn->prepare("CALL CreatePatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    //     return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo]);
-    // }
     
 
     // Read a patient by ID
