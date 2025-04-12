@@ -73,18 +73,37 @@ $patients = $crud->getAll();
 <div class="modal fade" id="viewModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+
+      <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title" id="viewModalLabel">Patient Profile</h5>
       </div>
-      <div class="modal-body">
-        <p><strong>Patient ID:</strong> <span id="modal-id"></span></p>
-        <p><strong>Full Name:</strong> <span id="modal-name"></span></p>
-        <p><strong>Age:</strong> <span id="modal-age"></span></p>
-        <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-        <p><strong>Contact:</strong> <span id="modal-contact"></span></p>
-        <p><strong>Address:</strong> <span id="modal-address"></span></p>
-        <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
+      
+      <div class="px-4 py-3">
+        <div class="row">
+          <!-- Left Column -->
+          <div class="col-8">
+            <p><strong>Name:</strong> <span id="modal-name"></span></p>
+            <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="modal-dob"></span></p>
+            <p><strong>Address:</strong> <span id="modal-address"></span></p>
+            <p><strong>Age:</strong> <span id="modal-age"></span></p>
+            <p><strong>Contact Number:</strong> <span id="modal-contact"></span></p>
+            <p><strong>Height:</strong> <span id="modal-height"></span></p>
+            <p><strong>Weight:</strong> <span id="modal-weight"></span></p>
+            <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
+          </div>
+
+          <!-- Right Column: Photo Box -->
+          <div class="col-4 text-center">
+            <div style="width: 100px; height: 120px; border: 1px solid #000; margin: auto;">
+              <small>Photo</small>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Modal Footer -->
       <div class="modal-footer">
         <a id="update-link" class="btn btn-success">Update</a>
         <form method="post" id="delete-form" action="delete_patient.php" onsubmit="return confirm('Are you sure you want to delete this patient?');">
@@ -93,9 +112,12 @@ $patients = $crud->getAll();
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+
     </div>
   </div>
 </div>
+
+
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

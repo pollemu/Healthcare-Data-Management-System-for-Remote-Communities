@@ -92,6 +92,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
       </div>
 
+      <div class="form-group">
+      <label for="height">Height</label>
+      <input type="number" step="0.01" name="height" class="form-control" value="<?= htmlspecialchars($patient['height']) ?>" required />
+      </div>
+
+      <div class="form-group">
+      <label for="weight">Weight</label>
+      <input type="number" step="0.01" name="weight" class="form-control" value="<?= htmlspecialchars($patient['weight']) ?>" required />
+      </div>
+
+      <div class="form-group">
+      <label for="date_of_birth">Date of Birth</label>
+      <input type="date" name="date_of_birth" class="form-control" value="<?= htmlspecialchars($patient['date_of_birth']) ?>" required />
+      </div>
+      </div>
+
+      <div class="form-group">
+    <label for="photo">Upload Photo</label>
+    <input type="file" name="photo" class="form-control" accept="image/*" />
+</div>
+
       <div class="text-center mt-4">
         <button type="submit" class="btn btn-success">Update Patient</button>
         <a href="get_patients.php" class="btn btn-secondary">Back</a>

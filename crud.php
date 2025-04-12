@@ -10,11 +10,12 @@ class Crud {
     }
 
     // Create a new patient
-    public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood) {
-        $stmt = $this->conn->prepare("INSERT INTO patients (first_name, middle_name, last_name, age, sex, contact_number, address, blood_type) 
-                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood]);
+    public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
+        $stmt = $this->conn->prepare("INSERT INTO patients (first_name, middle_name, last_name, age, sex, contact_number, address, blood_type, date_of_birth, height, weight, photo) 
+                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo]);
     }
+    
 
     // Read a patient by ID
     public function read($id) {
