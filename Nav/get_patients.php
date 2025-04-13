@@ -57,6 +57,9 @@ $patients = $crud->getAll();
               data-contact="<?= htmlspecialchars($patient['contact_number']) ?>"
               data-address="<?= htmlspecialchars($patient['address']) ?>"
               data-blood="<?= htmlspecialchars($patient['blood_type']) ?>"
+              data-height="<?= htmlspecialchars($patient['height']) ?>"
+              data-weight="<?= htmlspecialchars($patient['weight']) ?>"
+              data-date_of_birth="<?= htmlspecialchars($patient['date_of_birth']) ?>"
             >View</button>
           </td>
         </tr>
@@ -85,7 +88,7 @@ $patients = $crud->getAll();
           <div class="col-8">
             <p><strong>Name:</strong> <span id="modal-name"></span></p>
             <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-            <p><strong>Date of Birth:</strong> <span id="modal-dob"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="modal-date_of_birth"></span></p>
             <p><strong>Address:</strong> <span id="modal-address"></span></p>
             <p><strong>Age:</strong> <span id="modal-age"></span></p>
             <p><strong>Contact Number:</strong> <span id="modal-contact"></span></p>
@@ -117,8 +120,6 @@ $patients = $crud->getAll();
   </div>
 </div>
 
-
-
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -128,16 +129,16 @@ $patients = $crud->getAll();
 
 <script>
   $(document).ready(function() {
-    // Initialize DataTable without entries per page, enable search for hidden columns
+    // Initialize DataTable
     let table = new DataTable('#myTable', {
       lengthChange: false,
       columnDefs: [
-        { targets: [2, 3], visible: false }  // Sex and Blood Type columns are hidden but searchable
+        { targets: [2, 3], visible: false }  // Sex and Blood Type hidden but searchable
       ]
     });
 
-    // View patient details in the modal
-    $('.view-btn').click(function () {
+    // Fix: Delegated click handler for paginated rows
+    $(document).on('click', '.view-btn', function () {
       const id = $(this).data('id');
       const first = $(this).data('first');
       const middle = $(this).data('middle');
@@ -147,19 +148,25 @@ $patients = $crud->getAll();
       const contact = $(this).data('contact');
       const address = $(this).data('address');
       const blood = $(this).data('blood');
+      const height = $(this).data('height');
+      const weight = $(this).data('weight');
+      const date_of_birth = $(this).data('date_of_birth');
 
-      $('#modal-id').text(id);
       $('#modal-name').text(`${first} ${middle} ${last}`);
       $('#modal-age').text(age);
       $('#modal-sex').text(sex);
       $('#modal-contact').text(contact);
       $('#modal-address').text(address);
       $('#modal-blood').text(blood);
+      $('#modal-height').text(height);
+      $('#modal-weight').text(weight);
+      $('#modal-date_of_birth').text(date_of_birth);
 
       $('#update-link').attr('href', `update_patient.php?id=${id}`);
       $('#delete-id').val(id);
     });
   });
 </script>
+
 </body>
 </html>

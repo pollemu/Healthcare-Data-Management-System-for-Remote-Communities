@@ -24,12 +24,23 @@ class Crud {
         return $stmt->fetch();
     }
 
-    // Update a patient's details
-    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood) {
-        $stmt = $this->conn->prepare("UPDATE patients SET first_name = ?, middle_name = ?, last_name = ?, age = ?, sex = ?, 
-                                      contact_number = ?, address = ?, blood_type = ?, updated_at = CURRENT_TIMESTAMP 
+    // Update a patient's details (Modified to accept all 12 fields)
+    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth) {
+        $stmt = $this->conn->prepare("UPDATE patients SET 
+                                      first_name = ?, 
+                                      middle_name = ?, 
+                                      last_name = ?, 
+                                      age = ?, 
+                                      sex = ?, 
+                                      contact_number = ?, 
+                                      address = ?, 
+                                      blood_type = ?, 
+                                      height = ?, 
+                                      weight = ?, 
+                                      date_of_birth = ?, 
+                                      updated_at = CURRENT_TIMESTAMP 
                                       WHERE patient_id = ?");
-        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $id]);
+        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $id]);
     }
 
     // Delete a patient by ID
@@ -37,12 +48,6 @@ class Crud {
         $stmt = $this->conn->prepare("DELETE FROM patients WHERE patient_id = ?");
         return $stmt->execute([$id]);
     }
-
-    //  // Call the DeletePatient stored procedure
-    //  public function delete($id) {
-    //     $stmt = $this->conn->prepare("CALL DeletePatient(?)");
-    //     return $stmt->execute([$id]);
-    // }
 
     // Get all patients
     public function getAll() {
