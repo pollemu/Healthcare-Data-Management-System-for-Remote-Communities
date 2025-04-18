@@ -57,6 +57,9 @@ $patients = $crud->getAll();
               data-contact="<?= htmlspecialchars($patient['contact_number']) ?>"
               data-address="<?= htmlspecialchars($patient['address']) ?>"
               data-blood="<?= htmlspecialchars($patient['blood_type']) ?>"
+              data-height="<?= htmlspecialchars($patient['height']) ?>"
+              data-weight="<?= htmlspecialchars($patient['weight']) ?>"
+              data-date_of_birth="<?= htmlspecialchars($patient['date_of_birth']) ?>"
             >View</button>
           </td>
         </tr>
@@ -73,18 +76,37 @@ $patients = $crud->getAll();
 <div class="modal fade" id="viewModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+
+      <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title" id="viewModalLabel">Patient Profile</h5>
       </div>
-      <div class="modal-body">
-        <p><strong>Patient ID:</strong> <span id="modal-id"></span></p>
-        <p><strong>Full Name:</strong> <span id="modal-name"></span></p>
-        <p><strong>Age:</strong> <span id="modal-age"></span></p>
-        <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-        <p><strong>Contact:</strong> <span id="modal-contact"></span></p>
-        <p><strong>Address:</strong> <span id="modal-address"></span></p>
-        <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
+      
+      <div class="px-4 py-3">
+        <div class="row">
+          <!-- Left Column -->
+          <div class="col-8">
+            <p><strong>Name:</strong> <span id="modal-name"></span></p>
+            <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="modal-date_of_birth"></span></p>
+            <p><strong>Address:</strong> <span id="modal-address"></span></p>
+            <p><strong>Age:</strong> <span id="modal-age"></span></p>
+            <p><strong>Contact Number:</strong> <span id="modal-contact"></span></p>
+            <p><strong>Height:</strong> <span id="modal-height"></span></p>
+            <p><strong>Weight:</strong> <span id="modal-weight"></span></p>
+            <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
+          </div>
+
+          <!-- Right Column: Photo Box -->
+          <div class="col-4 text-center">
+            <div style="width: 100px; height: 120px; border: 1px solid #000; margin: auto;">
+              <small>Photo</small>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Modal Footer -->
       <div class="modal-footer">
         <a id="update-link" class="btn btn-success">Update</a>
         <form method="post" id="delete-form" action="delete_patient.php" onsubmit="return confirm('Are you sure you want to delete this patient?');">
@@ -93,6 +115,7 @@ $patients = $crud->getAll();
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+
     </div>
   </div>
 </div>
@@ -106,16 +129,16 @@ $patients = $crud->getAll();
 
 <script>
   $(document).ready(function() {
-    // Initialize DataTable without entries per page, enable search for hidden columns
+    // Initialize DataTable
     let table = new DataTable('#myTable', {
       lengthChange: false,
       columnDefs: [
-        { targets: [2, 3], visible: false }  // Sex and Blood Type columns are hidden but searchable
+        { targets: [2, 3], visible: false }  // Sex and Blood Type hidden but searchable
       ]
     });
 
-    // View patient details in the modal
-    $('.view-btn').click(function () {
+    // Fix: Delegated click handler for paginated rows
+    $(document).on('click', '.view-btn', function () {
       const id = $(this).data('id');
       const first = $(this).data('first');
       const middle = $(this).data('middle');
@@ -125,19 +148,25 @@ $patients = $crud->getAll();
       const contact = $(this).data('contact');
       const address = $(this).data('address');
       const blood = $(this).data('blood');
+      const height = $(this).data('height');
+      const weight = $(this).data('weight');
+      const date_of_birth = $(this).data('date_of_birth');
 
-      $('#modal-id').text(id);
       $('#modal-name').text(`${first} ${middle} ${last}`);
       $('#modal-age').text(age);
       $('#modal-sex').text(sex);
       $('#modal-contact').text(contact);
       $('#modal-address').text(address);
       $('#modal-blood').text(blood);
+      $('#modal-height').text(height);
+      $('#modal-weight').text(weight);
+      $('#modal-date_of_birth').text(date_of_birth);
 
       $('#update-link').attr('href', `update_patient.php?id=${id}`);
       $('#delete-id').val(id);
     });
   });
 </script>
+
 </body>
 </html>

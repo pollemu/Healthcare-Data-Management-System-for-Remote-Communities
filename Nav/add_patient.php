@@ -2,20 +2,44 @@
 require_once '../crud.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = $_POST['first_name'];
-    $middle_name = $_POST['middle_name'];
-    $last_name = $_POST['last_name'];
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
-    $contact = '+63' . ltrim($_POST['contact'], '+63');
-    $address = $_POST['address'];
-    $blood = $_POST['blood'];
+  // Get POST data
+  $first_name = $_POST['first_name'];
+  $middle_name = $_POST['middle_name'];
+  $last_name = $_POST['last_name'];
+  $age = $_POST['age'];
+  $sex = $_POST['sex'];
+  $contact = '+63' . ltrim($_POST['contact'], '+63');
+  $address = $_POST['address'];
+  $blood = $_POST['blood'];
+  $date_of_birth = $_POST['date_of_birth'];
+  $height = $_POST['height'];
+  $weight = $_POST['weight'];
 
-    $crud = new Crud();
-    $crud->create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood);
-    header('Location: get_patients.php?added=1');
-    exit;
+  // Handle photo upload
+  $photo = null;
+  if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+      $targetDir = "uploads/"; // Folder to store uploaded images
+      $photoName = basename($_FILES['photo']['name']);
+      $targetFile = $targetDir . $photoName;
+      
+      // Check if the file is an actual image
+      $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+      $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+      if (in_array($imageFileType, $allowedTypes)) {
+          move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
+          $photo = $targetFile; // Store the file path in the database
+      }
+  }
+  
+  // Create the patient record
+  $crud = new Crud();
+  $crud->create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo);
+
+  // Redirect after creating the patient
+  header('Location: get_patients.php?added=1');
+  exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -82,6 +106,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php endforeach; ?>
         </select>
       </div>
+
+      <div class="form-group text-center">
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth" class="form-control mx-auto" required />
+    </div>
+
+    <div class="form-group text-center">
+        <label>Height (in cm)</label>
+        <input type="number" step="0.01" name="height" class="form-control mx-auto" required />
+    </div>
+
+    <div class="form-group text-center">
+        <label>Weight (in kg)</label>
+        <input type="number" step="0.01" name="weight" class="form-control mx-auto" required />
+    </div>
+
+    <div class="form-group">
+        <label for="photo">Upload Photo</label>
+        <input type="file" name="photo" class="form-control" accept="image/*" />
+    </div>
+
 
       <div class="text-center mt-4">
         <button type="submit" class="btn btn-primary">Add Patient</button>
