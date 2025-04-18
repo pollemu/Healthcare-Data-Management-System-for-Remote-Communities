@@ -1,6 +1,7 @@
 <?php
 require_once '../crud.php';
 
+$pdo = new PDO("mysql:host=localhost;dbname=healthcare_data", "username", "password");
 $crud = new Crud();
 $patient = null;
 
