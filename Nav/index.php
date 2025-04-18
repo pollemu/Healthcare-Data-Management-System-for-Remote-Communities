@@ -49,7 +49,6 @@
     <header>Healthcare Admin Panel</header>
     <main>
         <div class="system-name">HEALTHCARE SYSTEM</div>
-
         <div class="button-row">
             <form action="add_patient.php" method="get">
                 <button type="submit">Add Patient</button>

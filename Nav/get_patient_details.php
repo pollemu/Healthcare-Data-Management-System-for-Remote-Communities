@@ -1,10 +1,9 @@
 <?php
 require_once '../crud.php';
-$pdo = new PDO("mysql:host=localhost;dbname=healthcare_data", "username", "password");
 
+$pdo = new PDO("mysql:host=localhost;dbname=healthcare_data", "username", "password");
 $crud = new Crud();
 $patient = null;
-
 
 if (isset($_GET['id'])) {
     $patient = $crud->read($_GET['id']);
