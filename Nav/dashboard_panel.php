@@ -57,7 +57,7 @@ $avgPatients = $dashboardFunctions->getAveragePatientsPerDay();
                         </a>
                     </li>
                     <li>
-                        <a href=".." class="nav-link px-0 align-middle">
+                        <a href="login.php" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Logout</span>
                         </a>
                     </li>
