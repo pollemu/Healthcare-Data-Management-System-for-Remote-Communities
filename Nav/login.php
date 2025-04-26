@@ -1,10 +1,18 @@
 <?php
 session_start();  // Start the session
 
-// Check if the user is logged in
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: login.php');  // Redirect to login if not logged in
-    exit();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Check if credentials are correct
+    if ($username == 'admin' && $password == '12345') {
+        $_SESSION['logged_in'] = true;  
+        header('Location: dashboard_panel.php');  
+        exit();
+    } else {
+        $error_message = "Invalid credentials. Please try again.";
+    }
 }
 ?>
 
@@ -33,19 +41,13 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
       margin: 2rem 0;
       font-weight: bold;
     }
-    .button-row {
+    .form-container {
       max-width: 400px;
       margin: auto;
       padding: 2rem;
       background-color: white;
       border-radius: 0.75rem;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .button-row form {
-      margin-bottom: 1rem;
-    }
-    .button-row button {
-      width: 100%;
     }
   </style>
 </head>
@@ -55,13 +57,19 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
   <main>
     <div class="system-name">HEALTHCARE SYSTEM</div>
 
-    <!-- Dashboard Buttons -->
-    <div class="button-row">
-      <form action="add_patient.php" method="get">
-        <button type="submit" class="btn btn-success">Add Patient</button>
-      </form>
-      <form action="get_patients.php" method="get">
-        <button type="submit" class="btn btn-info">View Patients</button>
+    <!-- Login Form -->
+    <div class="form-container">
+      <form action="login.php" method="POST">
+        <?php if (isset($error_message)) { echo '<div class="alert alert-danger">' . $error_message . '</div>'; } ?>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
       </form>
     </div>
   </main>
