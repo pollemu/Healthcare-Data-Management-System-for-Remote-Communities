@@ -25,11 +25,11 @@ class Crud {
     }
 
     // Update a patient's details
-    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood) {
+    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
         $stmt = $this->conn->prepare("UPDATE patients SET first_name = ?, middle_name = ?, last_name = ?, age = ?, sex = ?, 
-                                      contact_number = ?, address = ?, blood_type = ?, updated_at = CURRENT_TIMESTAMP 
+                                      contact_number = ?, address = ?, blood_type = ?, date_of_birth = ?, height = ?, weight = ?, photo = ?, updated_at = CURRENT_TIMESTAMP 
                                       WHERE patient_id = ?");
-        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $id]);
+        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo, $id]);
     }
 
     // Delete a patient by ID
