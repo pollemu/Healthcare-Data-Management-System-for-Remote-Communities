@@ -93,7 +93,7 @@ $avgPatients = $dashboardFunctions->getAveragePatientsPerDay();
 } elseif ($page == 'users') {
     include 'index.php';  
 } elseif ($page == 'inventory') {
-    include ''; 
+    include '../inventory.php'; 
 } else {
     echo "<h2>Page not found!</h2>";
 } ?>
