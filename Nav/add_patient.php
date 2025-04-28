@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <div class="text-center mt-4">
         <button type="submit" class="btn btn-primary">Add Patient</button>
-        <a href="index.php" class="btn btn-secondary">Back to Home</a>
+        <a href="dashboard_panel.php" class="btn btn-secondary">Back to Home</a>
       </div>
     </form>
   </main>

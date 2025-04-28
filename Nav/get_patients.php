@@ -1,6 +1,7 @@
 <?php
 require_once '../crud.php';
 
+
 $crud = new Crud();
 $patients = $crud->getAll();
 ?>
@@ -67,7 +68,7 @@ $patients = $crud->getAll();
     </tbody>
   </table>
 
-  <form action="index.php" method="get">
+  <form action="dashboard_panel.php" method="get">
     <button type="submit" class="btn btn-secondary">Back to Home</button>
   </form>
 </main>

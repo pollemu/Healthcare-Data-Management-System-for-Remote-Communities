@@ -49,7 +49,7 @@ class Crud {
 
     // Get all patients using the stored procedure
     public function getAll() {
-        $stmt = $this->conn->prepare("CALL GetAllPatients()");
+        $stmt = $this->conn->prepare("CALL GetAllPatientss()");
         $stmt->execute();
         return $stmt->fetchAll();
     }
