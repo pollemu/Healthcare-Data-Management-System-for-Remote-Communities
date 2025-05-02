@@ -8,6 +8,7 @@ class DashboardFunctions {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
+    
 
     // ✅ Call: get_total_patients()
     public function getTotalPatients() {
@@ -31,5 +32,7 @@ class DashboardFunctions {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);  // fixed
         $stmt->closeCursor();
         return round($row['avgPerDay'] ?? 0, 2);
+        
     }
 }
+
