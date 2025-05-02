@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = $_POST['weight'];
     $date_of_birth = $_POST['date_of_birth'];
 
-    // Handle photo upload
     $photo = $patient['photo'];
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
         $targetDir = "uploads/";
@@ -39,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $crud->update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
-
     header('Location: get_patients.php?updated=1');
     exit;
 }
@@ -54,19 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #f7f9fc;
-        }
-        .card {
-            margin-top: 30px;
-        }
-        .input-group-text {
-            width: 60px;
-            justify-content: center;
-        }
-        img.img-thumbnail {
-            max-height: 150px;
-        }
+        body { background-color: #f7f9fc; }
+        .card { margin-top: 30px; }
+        .input-group-text { width: 60px; justify-content: center; }
+        img.img-thumbnail { max-height: 150px; }
+        .modal-img { max-height: 150px; }
     </style>
 </head>
 <body>
@@ -83,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="card-body">
                     <?php if ($patient): ?>
-                    <form method="POST" enctype="multipart/form-data">
+                    <form id="updateForm" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?= $patient['patient_id'] ?>" />
 
                         <div class="form-row">
@@ -155,16 +145,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="form-group">
                             <label>Upload Photo</label>
-                            <input type="file" name="photo" class="form-control-file" accept="image/*">
+                            <input type="file" name="photo" class="form-control-file" accept="image/*" onchange="previewNewPhoto(event)">
                             <?php if (!empty($patient['photo'])): ?>
                                 <div class="mt-3">
-                                    <img src="<?= htmlspecialchars($patient['photo']) ?>" alt="Current Photo" class="img-thumbnail">
+                                    <img src="<?= htmlspecialchars($patient['photo']) ?>" alt="Current Photo" class="img-thumbnail" id="currentPhoto">
                                 </div>
                             <?php endif; ?>
                         </div>
 
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success px-4">Update Patient</button>
+                            <button type="button" class="btn btn-success px-4" onclick="showConfirmation()">Update Patient</button>
                             <a href="get_patients.php" class="btn btn-secondary px-4">Back</a>
                         </div>
                     </form>
@@ -177,8 +167,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </main>
 
-<!-- Bootstrap JS CDN -->
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Confirm Patient Update</h5>
+            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+        </div>
+      <div class="modal-body">
+        <ul class="list-group mb-3">
+          <li class="list-group-item"><strong>Name:</strong> <span id="confName"></span></li>
+          <li class="list-group-item"><strong>Age:</strong> <span id="confAge"></span></li>
+          <li class="list-group-item"><strong>Sex:</strong> <span id="confSex"></span></li>
+          <li class="list-group-item"><strong>Contact:</strong> <span id="confContact"></span></li>
+          <li class="list-group-item"><strong>Address:</strong> <span id="confAddress"></span></li>
+          <li class="list-group-item"><strong>Blood Type:</strong> <span id="confBlood"></span></li>
+          <li class="list-group-item"><strong>Height:</strong> <span id="confHeight"></span> cm</li>
+          <li class="list-group-item"><strong>Weight:</strong> <span id="confWeight"></span> kg</li>
+          <li class="list-group-item"><strong>Date of Birth:</strong> <span id="confDOB"></span></li>
+        </ul>
+        <div class="text-center">
+          <img id="confPhoto" class="modal-img rounded border" alt="Photo Preview">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" onclick="document.getElementById('updateForm').submit()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function showConfirmation() {
+    const form = document.forms['updateForm'];
+    const fullName = `${form['first_name'].value} ${form['middle_name'].value} ${form['last_name'].value}`;
+    document.getElementById('confName').innerText = fullName;
+    document.getElementById('confAge').innerText = form['age'].value;
+    document.getElementById('confSex').innerText = form['sex'].value === 'M' ? 'Male' : 'Female';
+    document.getElementById('confContact').innerText = '+63' + form['contact'].value;
+    document.getElementById('confAddress').innerText = form['address'].value;
+    document.getElementById('confBlood').innerText = form['blood'].value;
+    document.getElementById('confHeight').innerText = form['height'].value;
+    document.getElementById('confWeight').innerText = form['weight'].value;
+    document.getElementById('confDOB').innerText = form['date_of_birth'].value;
+
+    const fileInput = form['photo'];
+    const photoPreview = document.getElementById('confPhoto');
+    if (fileInput.files && fileInput.files[0]) {
+        photoPreview.src = URL.createObjectURL(fileInput.files[0]);
+    } else {
+        photoPreview.src = document.getElementById('currentPhoto')?.src || '';
+    }
+
+    $('#confirmModal').modal('show');
+}
+
+function previewNewPhoto(event) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('currentPhoto').src = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 </body>
 </html>
