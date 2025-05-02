@@ -108,6 +108,11 @@ $patients = $crud->getAll();
             <p><strong>Weight:</strong> <span id="modal-weight"></span></p>
             <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
           </div>
+          <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
+            <div class="border" style="width: 120px; height: 150px; display: flex; align-items: center; justify-content: center;">
+              <span class="text-muted">Photo</span>
+            </div>
+          </div>
         </div>
       </div>
 
