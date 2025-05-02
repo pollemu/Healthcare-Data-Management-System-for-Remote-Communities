@@ -9,7 +9,7 @@ class DashboardFunctions {
         $this->conn = $db->getConnection();
     }
 
-    // Fetch total number of patients
+    // ✅ Call: get_total_patients()
     public function getTotalPatients() {
         $stmt = $this->conn->query("CALL GetAllPatients()");
         if (!$stmt) {
@@ -36,6 +36,6 @@ class DashboardFunctions {
         }
 
         $stmt->closeCursor();
-        return $patientsData; // Return an array of daily averages
+        return round($row['avgPerDay'] ?? 0, 2);
     }
 }

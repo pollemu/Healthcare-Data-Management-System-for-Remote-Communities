@@ -11,13 +11,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Add New Medicine</h2>
 <form method="POST">
-    <label>Medicine Name: <input type="text" name="name" required></label><br><br>
-    <label>Quantity: <input type="number" name="quantity" required></label><br><br>
-    <label>Expiration Date: <input type="date" name="expiration"></label><br><br>
-    <label>Description: <textarea name="description"></textarea></label><br><br>
-    <label>Dosage: <input type="text" name="dosage"></label><br><br>
-    <label>Type: <input type="text" name="type"></label><br><br>
-    <button type="submit" name="add">Add Medicine</button>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="name" class="form-label">Medicine Name</label>
+      <input type="text" class="form-control" name="name" id="name" required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input type="number" class="form-control" name="quantity" id="quantity" required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="expiration" class="form-label">Expiration Date</label>
+      <input type="date" class="form-control" name="expiration" id="expiration">
+    </div>
+
+    <div class="col-md-6">
+      <label for="dosage" class="form-label">Dosage</label>
+      <input type="text" class="form-control" name="dosage" id="dosage">
+    </div>
+
+    <div class="col-md-6">
+      <label for="type" class="form-label">Type</label>
+      <input type="text" class="form-control" name="type" id="type">
+    </div>
+
+    <div class="col-md-12">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+    </div>
+
+    <div class="col-12 d-flex justify-content-end">
+      <button type="submit" name="add" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Medicine
+      </button>
+    </div>
+  </div>
 </form>

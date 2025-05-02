@@ -18,6 +18,7 @@ $patients = $crud->getAll();
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
+
 <body style="background-color: #f9f9f9;">
 
 <header class="bg-primary text-white text-center py-3 mb-4">
@@ -144,24 +145,21 @@ $(document).ready(function () {
     ],
   });
 
-  $(document).on('click', '.view-btn', function () {
-    $('#modal-name').text(`${$(this).data('first')} ${$(this).data('middle')} ${$(this).data('last')}`);
-    $('#modal-age').text($(this).data('age'));
-    $('#modal-sex').text($(this).data('sex'));
-    $('#modal-contact').text($(this).data('contact'));
-    $('#modal-address').text($(this).data('address'));
-    $('#modal-blood').text($(this).data('blood'));
-    $('#modal-height').text($(this).data('height'));
-    $('#modal-weight').text($(this).data('weight'));
-    $('#modal-date_of_birth').text($(this).data('date_of_birth'));
-    
-    // Set the image path
-    $('#modal-image').attr('src', $(this).data('image') || 'default-image.jpg'); // Default image if none exists
-    
-    $('#update-link').attr('href', `update_patient.php?id=${$(this).data('id')}`);
-    $('#delete-id').val($(this).data('id'));
+    $(document).on('click', '.view-btn', function () {
+      $('#modal-name').text(`${$(this).data('first')} ${$(this).data('middle')} ${$(this).data('last')}`);
+      $('#modal-age').text($(this).data('age'));
+      $('#modal-sex').text($(this).data('sex'));
+      $('#modal-contact').text($(this).data('contact'));
+      $('#modal-address').text($(this).data('address'));
+      $('#modal-blood').text($(this).data('blood'));
+      $('#modal-height').text($(this).data('height'));
+      $('#modal-weight').text($(this).data('weight'));
+      $('#modal-date_of_birth').text($(this).data('date_of_birth'));
+
+      $('#update-link').attr('href', `update_patient.php?id=${$(this).data('id')}`);
+      $('#delete-id').val($(this).data('id'));
+    });
   });
-});
 </script>
 
 <!-- Custom Styles -->
