@@ -1,75 +1,100 @@
 <?php
 require_once 'crudInventory.php';
 $inventory = new CrudInventory();
-
 $medicines = $inventory->getAllMedicines();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Medicine Inventory</title>
-    <link rel="stylesheet" href="inventorycss.css">
+  <meta charset="UTF-8">
+  <title>Medicine Inventory</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <style>
+    .modal-content {
+      border-radius: 1rem;
+    }
+    .table th, .table td {
+      vertical-align: middle;
+    }
+    .btn-sm i {
+      margin-right: 4px;
+    }
+  </style>
 </head>
-<body>
-    <h1>Medicine Inventory</h1>
+<body class="bg-light">
 
-    <button id="openModalBtn">Add New Medicine</button>
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-capsule"></i> Medicine Inventory</h2>
+    <button id="openModalBtn" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Medicine</button>
+  </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Medicine Name</th>
-                <th>Quantity</th>
-                <th>Expiration Date</th>
-                <th>Description</th>
-                <th>Dosage</th>
-                <th>Type</th>
-                <th>Actions</th>
-            </tr>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Medicine Name</th>
+            <th>Quantity</th>
+            <th>Expiration Date</th>
+            <th>Description</th>
+            <th>Dosage</th>
+            <th>Type</th>
+            <th class="text-center">Actions</th>
+          </tr>
         </thead>
         <tbody>
-            <?php foreach ($medicines as $medicine): ?>
-                <tr>
-                    <td><?= $medicine['medicine_id'] ?></td>
-                    <td><?= htmlspecialchars($medicine['medicine_name']) ?></td>
-                    <td><?= $medicine['quantity'] ?></td>
-                    <td><?= $medicine['expiration_date'] ?></td>
-                    <td><?= htmlspecialchars($medicine['description']) ?></td>
-                    <td><?= htmlspecialchars($medicine['dosage']) ?></td>
-                    <td><?= htmlspecialchars($medicine['type']) ?></td>
-                    <td>
-                        <form action="update_medicine.php" method="GET" style="display:inline;">
-                            <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
-                            <button type="submit">Edit</button>
-                        </form>
-                        <form action="del_medicine.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
-                            <button type="submit" onclick="return confirm('Delete this medicine?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+          <?php foreach ($medicines as $medicine): ?>
+            <tr>
+              <td><?= $medicine['medicine_id'] ?></td>
+              <td><?= htmlspecialchars($medicine['medicine_name']) ?></td>
+              <td><?= $medicine['quantity'] ?></td>
+              <td><?= $medicine['expiration_date'] ?></td>
+              <td><?= htmlspecialchars($medicine['description']) ?></td>
+              <td><?= htmlspecialchars($medicine['dosage']) ?></td>
+              <td><?= htmlspecialchars($medicine['type']) ?></td>
+              <td class="text-center">
+                <a href="update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </a>
+                <form action="del_medicine.php" method="POST" class="d-inline">
+                  <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
+                  <button type="submit" onclick="return confirm('Delete this medicine?')" class="btn btn-sm btn-danger">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
-    </table>
-
-    <!-- Modal -->
-    <div id="medicineModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <?php include 'add_medicine.php'; ?>
-        </div>
+      </table>
     </div>
+  </div>
+</div>
 
-    <script>
-        const modal = document.getElementById("medicineModal");
-        const btn = document.getElementById("openModalBtn");
-        const span = document.getElementsByClassName("close")[0];
+<!-- Modal -->
+<div class="modal fade" id="medicineModal" tabindex="-1" aria-labelledby="medicineModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title" id="medicineModalLabel"><i class="bi bi-capsule-plus"></i> Add New Medicine</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php include 'add_medicine.php'; ?>
+      </div>
+    </div>
+  </div>
+</div>
 
-        btn.onclick = () => modal.style.display = "block";
-        span.onclick = () => modal.style.display = "none";
-        window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const modal = new bootstrap.Modal(document.getElementById('medicineModal'));
+  document.getElementById('openModalBtn').addEventListener('click', () => modal.show());
+</script>
+
 </body>
 </html>

@@ -9,11 +9,18 @@ class Crud {
         $this->conn = $db->getConnection();
     }
 
-    // Create a new patient using the stored procedure
-    public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
-        $stmt = $this->conn->prepare("CALL AddPatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo]);
+    // // Create a new patient using the stored procedure
+    // public function create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
+    //     $stmt = $this->conn->prepare("CALL AddPatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    //     $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo]);
+    // }
+
+    public function create($first_name, $middle_name, $last_name, $age, $sex, $contact_number, $address, $blood_type, $date_of_birth, $height, $weight, $photo) {
+        // Updated query to match the column names in the database
+        $stmt = $this->conn->prepare("CALL AddPatient1(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact_number, $address, $blood_type, $date_of_birth, $height, $weight, $photo]);
     }
+    
 
     // Read a patient by ID using the stored procedure
     public function read($id) {
