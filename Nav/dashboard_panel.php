@@ -104,7 +104,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         } elseif ($page == 'users') {
           include 'index.php';
         } elseif ($page == 'inventory') {
-          include '../inventory.php';
+          include '../Inventory/inventory.php';
         } else {
           echo "<h2>Page not found!</h2>";
         }
