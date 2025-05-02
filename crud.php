@@ -43,6 +43,7 @@ class Crud {
             $photo
         ]);
     }
+    
 
     // Delete a patient by ID using the stored procedure
     public function delete($id) {

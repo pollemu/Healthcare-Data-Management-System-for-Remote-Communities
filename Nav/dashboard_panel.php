@@ -6,75 +6,32 @@ $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
 $totalPatients = $dashboardFunctions->getTotalPatients();
-$avgPatients = $dashboardFunctions->getAveragePatientsPerDay();
+$avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
+
+// Days of the week (for the X-axis)
+$daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Healthcare Admin Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    body {
-      background-color: #f1f3f6;
-    }
-
-    .sidebar {
-      min-height: 100vh;
-      background-color: #212529;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .sidebar .nav-link {
-      color: #cfd2d6;
-      padding: 12px 20px;
-      transition: 0.3s ease;
-      border-radius: 0.375rem;
-    }
-
-    .sidebar .nav-link:hover,
-    .sidebar .nav-link.active {
-      background-color: #343a40;
-      color: #fff;
-    }
-
-    .sidebar .nav-link i {
-      margin-right: 10px;
-    }
-
-    .main-content {
-      padding: 2rem;
-    }
-
-    .card {
-      border: none;
-      border-radius: 1rem;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .card i {
-      font-size: 2rem;
-    }
-
-    .dashboard-title {
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .metric-label {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.85);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Healthcare Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+        }
+        .sidebar a { color: #fff; text-decoration: none; }
+        .sidebar a:hover { text-decoration: underline; }
+        .main-content { padding: 20px; }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -156,5 +113,24 @@ $avgPatients = $dashboardFunctions->getAveragePatientsPerDay();
   </div>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('logoutLink').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be logged out.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, log me out!',
+            cancelButtonText: 'No, stay logged in!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = this.href;
+            }
+        });
+    });
+</script>
 </html>
 
