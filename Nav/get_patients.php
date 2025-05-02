@@ -107,7 +107,7 @@ $patients = $crud->getAll();
           </div>
           <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
             <div class="border" style="width: 120px; height: 150px; display: flex; align-items: center; justify-content: center;">
-              <span class="text-muted">Photo</span>
+            <img src="get_image.php?id=1" alt="Photo">
             </div>
           </div>
         </div>

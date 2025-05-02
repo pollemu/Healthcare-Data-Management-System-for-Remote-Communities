@@ -50,7 +50,6 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
   </style>
 </head>
 <body>
-  <header>Healthcare Admin Panel</header>
   
   <main>
     <div class="system-name">HEALTHCARE SYSTEM</div>
