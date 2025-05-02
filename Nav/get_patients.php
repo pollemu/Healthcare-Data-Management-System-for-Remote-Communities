@@ -18,7 +18,6 @@ $patients = $crud->getAll();
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
-
 <body style="background-color: #f9f9f9;">
 
 <header class="bg-primary text-white text-center py-3 mb-4">
@@ -65,6 +64,7 @@ $patients = $crud->getAll();
                 data-height="<?= htmlspecialchars($patient['height']) ?>"
                 data-weight="<?= htmlspecialchars($patient['weight']) ?>"
                 data-date_of_birth="<?= htmlspecialchars($patient['date_of_birth']) ?>"
+                data-image="<?= htmlspecialchars($patient['photo']) ?>"
               >View</button>
             </td>
           </tr>
@@ -83,7 +83,7 @@ $patients = $crud->getAll();
 <!-- Modal -->
 <div class="modal fade" id="viewModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-content rounded-lg shadow-lg">
 
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title" id="viewModalLabel">Patient Profile</h5>
@@ -94,6 +94,9 @@ $patients = $crud->getAll();
 
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-4 text-center">
+            <img id="modal-image" class="img-fluid shadow-sm" style="max-height: 180px; width: 100%; object-fit: cover;" alt="Patient Image">
+          </div>
           <div class="col-md-8">
             <p><strong>Name:</strong> <span id="modal-name"></span></p>
             <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
@@ -105,21 +108,16 @@ $patients = $crud->getAll();
             <p><strong>Weight:</strong> <span id="modal-weight"></span></p>
             <p><strong>Blood Type:</strong> <span id="modal-blood"></span></p>
           </div>
-          <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
-            <div class="border" style="width: 120px; height: 150px; display: flex; align-items: center; justify-content: center;">
-              <span class="text-muted">Photo</span>
-            </div>
-          </div>
         </div>
       </div>
 
       <div class="modal-footer justify-content-between">
-        <a id="update-link" class="btn btn-success">Update</a>
+        <a id="update-link" class="btn btn-success btn-sm shadow-sm">Update</a>
         <form method="post" id="delete-form" action="delete_patient.php" onsubmit="return confirm('Are you sure you want to delete this patient?');">
           <input type="hidden" name="id" id="delete-id">
-          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="submit" class="btn btn-danger btn-sm shadow-sm">Delete</button>
         </form>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary btn-sm shadow-sm" data-dismiss="modal">Close</button>
       </div>
 
     </div>
@@ -151,12 +149,45 @@ $(document).ready(function () {
     $('#modal-height').text($(this).data('height'));
     $('#modal-weight').text($(this).data('weight'));
     $('#modal-date_of_birth').text($(this).data('date_of_birth'));
-
+    
+    // Set the image path
+    $('#modal-image').attr('src', $(this).data('image') || 'default-image.jpg'); // Default image if none exists
+    
     $('#update-link').attr('href', `update_patient.php?id=${$(this).data('id')}`);
     $('#delete-id').val($(this).data('id'));
   });
 });
 </script>
+
+<!-- Custom Styles -->
+<style>
+  .modal-content {
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .modal-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  .modal-body p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  .modal-footer {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+  .modal-body img {
+    border-radius: 0; /* Square corners for the image */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .btn-sm {
+    padding: 8px 16px;
+  }
+  .btn:hover {
+    opacity: 0.9;
+  }
+</style>
 
 </body>
 </html>
