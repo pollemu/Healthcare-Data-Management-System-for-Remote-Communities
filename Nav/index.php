@@ -63,6 +63,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
       <form action="get_patients.php" method="get">
         <button type="submit" class="btn btn-info">View Patients</button>
       </form>
+      
     </div>
   </main>
 </body>

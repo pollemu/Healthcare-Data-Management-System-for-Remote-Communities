@@ -21,7 +21,6 @@ $patients = $crud->getAll();
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<header>Healthcare Admin Panel</header>
 <main class="container mt-5">
   <div class="system-name mb-4">Patient Management</div>
 
