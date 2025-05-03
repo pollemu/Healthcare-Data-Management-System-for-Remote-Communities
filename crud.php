@@ -22,14 +22,6 @@ class Crud {
         return $stmt->fetch();
     }
 
-<<<<<<< HEAD
-    // Update a patient's details
-    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo) {
-        $stmt = $this->conn->prepare("UPDATE patients SET first_name = ?, middle_name = ?, last_name = ?, age = ?, sex = ?, 
-                                      contact_number = ?, address = ?, blood_type = ?, date_of_birth = ?, height = ?, weight = ?, photo = ?, updated_at = CURRENT_TIMESTAMP 
-                                      WHERE patient_id = ?");
-        return $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $date_of_birth, $height, $weight, $photo, $id]);
-=======
     // Update a patient's details using the stored procedure
     public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth) {
         $stmt = $this->conn->prepare("CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -47,7 +39,6 @@ class Crud {
             $weight,
             $date_of_birth
         ]);
->>>>>>> origin/master
     }
 
     // Delete a patient by ID using the stored procedure
@@ -58,7 +49,7 @@ class Crud {
 
     // Get all patients using the stored procedure
     public function getAll() {
-        $stmt = $this->conn->prepare("CALL GetAllPatientss()");
+        $stmt = $this->conn->prepare("CALL GetAllPatients()");
         $stmt->execute();
         return $stmt->fetchAll();
     }
