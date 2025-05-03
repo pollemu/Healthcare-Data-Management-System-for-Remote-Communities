@@ -46,9 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
 <body class="bg-light">
-<header class="bg-primary text-white text-center py-3 mb-4">
-    <h1 class="h4 mb-0">Healthcare Admin Panel</h1>
-</header>
 
 <main class="container">
     <div class="card shadow mx-auto" style="max-width: 850px;">
@@ -131,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Add Patient</button>
-                    <a href="dashboard_panel.php" class="btn btn-secondary ml-2">Back to Home</a>
                 </div>
 
             </form>

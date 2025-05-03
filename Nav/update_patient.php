@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $crud->update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
-    header('Location: get_patients.php?updated=1');
+    header('Location: dashboard_panel.php?page=users');
     exit;
 }
 ?>
@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="text-center mt-4">
                             <button type="button" class="btn btn-success px-4" onclick="showConfirmation()">Update Patient</button>
-                            <a href="get_patients.php" class="btn btn-secondary px-4">Back</a>
+                            <a href="dashboard_panel.php?page=users" class="btn btn-secondary px-4">Back</a>
                         </div>
                     </form>
                     <?php else: ?>
