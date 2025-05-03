@@ -28,14 +28,7 @@ $patients = $crud->getAll();
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="text-secondary">Patient Management</h3>
     <!-- BS5 data-bs-toggle / target -->
-    <button
-      id="openModalBtn"
-      class="btn btn-primary btn-sm"
-      data-bs-toggle="modal"
-      data-bs-target="#patientModal"
-    >
-      <i class="bi bi-person-plus"></i> Add New Patient
-    </button>
+    <button id="openModalBtn" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Patient</button>
   </div>
 
   <div class="table-responsive">

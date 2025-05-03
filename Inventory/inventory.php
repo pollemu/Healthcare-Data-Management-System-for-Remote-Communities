@@ -61,10 +61,10 @@ $medicines = $inventory->getAllMedicines();
               <td><?= htmlspecialchars($medicine['dosage']) ?></td>
               <td><?= htmlspecialchars($medicine['type']) ?></td>
               <td class="text-center">
-                <a href="update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
+                <a href="../Inventory/update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <form action="del_medicine.php" method="POST" class="d-inline">
+                <form action="../Inventory/del_medicine.php" method="POST" class="d-inline">
                   <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
                   <button type="submit" onclick="return confirm('Delete this medicine?')" class="btn btn-sm btn-danger">
                     <i class="bi bi-trash"></i> Delete
@@ -88,7 +88,7 @@ $medicines = $inventory->getAllMedicines();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <?php include 'add_medicine.php'; ?>
+        <?php include '../Inventory/add_medicine.php'; ?>
       </div>
     </div>
   </div>
