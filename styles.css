@@ -118,28 +118,6 @@ form label {
     margin-bottom: 8px;
 }
 
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 30px 0;
-}
-
-table th, table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-table th {
-    background-color: rgb(119, 158, 203);
-    color: white;
-}
-
-table td {
-    background-color: #fff;
-}
-
 /* Pagination Styles */
 .page-item.active .page-link {
     background-color: rgb(119, 158, 203);
