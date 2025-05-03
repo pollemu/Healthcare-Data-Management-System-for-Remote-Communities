@@ -1,5 +1,5 @@
 <?php
-require_once 'crudInventory.php';
+require_once 'CrudInventory.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $inventory = new CrudInventory();

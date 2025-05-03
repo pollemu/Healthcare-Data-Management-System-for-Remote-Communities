@@ -1,5 +1,5 @@
 <?php
-require_once 'crudInventory.php';
+require_once 'CrudInventory.php';
 $inventory = new CrudInventory();
 $medicines = $inventory->getAllMedicines();
 ?>
