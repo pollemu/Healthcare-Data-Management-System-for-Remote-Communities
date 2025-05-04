@@ -1,0 +1,201 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header Styles */
+header {
+    background-color: rgb(119, 158, 203);
+    color: white;
+    padding: 20px;
+    text-align: left;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Main Content Styles */
+main {
+    padding: 40px;
+    text-align: center;
+}
+
+.system-name {
+    margin-bottom: 50px;
+    font-size: 24px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Button Styles */
+button,
+.btn {
+    width: 220px;
+    height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgb(119, 158, 203);
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+button:hover,
+.btn:hover {
+    background-color: rgb(100, 140, 180);
+}
+
+button:active,
+.btn:active {
+    background-color: rgb(90, 130, 170);
+}
+
+/* Button Row Styles */
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Form Styles */
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-row.inline {
+    display: flex;
+    gap: 10px;
+}
+
+.short-select {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.prefix-group {
+    display: flex;
+    align-items: center;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.prefix {
+    padding: 10px 12px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.prefix-group input {
+    border-radius: 0 5px 5px 0;
+    flex: 1;
+}
+
+/* Form Input and Textarea */
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Pagination Styles */
+.page-item.active .page-link {
+    background-color: rgb(119, 158, 203);
+    border-color: rgb(119, 158, 203);
+}
+
+.page-link {
+    color: #333;
+}
+
+/* Update and Delete Buttons */
+.update-btn, .delete-btn {
+    width: 100px;
+    height: 35px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.update-btn {
+    background-color: #28a745;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .form-row.inline > .form-group {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  .form-row.inline > .form-group:last-child {
+    margin-right: 0;
+  }
+
+  .short-select {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .prefix-group {
+    display: flex;
+    align-items: center;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .prefix {
+    padding: 10px 12px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .prefix-group input {
+    border-radius: 0 5px 5px 0;
+    flex: 1;
+  }
+
+  
