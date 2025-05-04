@@ -14,14 +14,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $medicine = $inventory->getMedicine($_GET['id']);
 ?>
 
-<h2>Edit Medicine</h2>
-<form method="POST">
-    <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
-    <label>Medicine Name: <input type="text" name="name" value="<?= $medicine['medicine_name'] ?>" required></label><br><br>
-    <label>Quantity: <input type="number" name="quantity" value="<?= $medicine['quantity'] ?>" required></label><br><br>
-    <label>Expiration Date: <input type="date" name="expiration" value="<?= $medicine['expiration_date'] ?>"></label><br><br>
-    <label>Description: <textarea name="description"><?= $medicine['description'] ?></textarea></label><br><br>
-    <label>Dosage: <input type="text" name="dosage" value="<?= $medicine['dosage'] ?>"></label><br><br>
-    <label>Type: <input type="text" name="type" value="<?= $medicine['type'] ?>"></label><br><br>
-    <button type="submit" name="update">Update Medicine</button>
-</form>
+<div class="container">
+  <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+          <h4 class="mb-0">Edit Medicine</h4>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($medicine['medicine_id']) ?>">
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Medicine Name</label>
+                <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($medicine['medicine_name']) ?>" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-control" value="<?= htmlspecialchars($medicine['quantity']) ?>" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Expiration Date</label>
+                <input type="date" name="expiration" class="form-control" value="<?= htmlspecialchars($medicine['expiration_date']) ?>">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Dosage</label>
+                <input type="text" name="dosage" class="form-control" value="<?= htmlspecialchars($medicine['dosage']) ?>">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Type</label>
+                <input type="text" name="type" class="form-control" value="<?= htmlspecialchars($medicine['type']) ?>">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($medicine['description']) ?></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a href="../Nav/dashboard_panel.php?page=inventory" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+              </a>
+              <button type="submit" name="update" class="btn btn-primary">
+                <i class="bi bi-save"></i> Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
