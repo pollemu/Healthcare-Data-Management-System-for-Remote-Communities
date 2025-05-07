@@ -1,5 +1,5 @@
 <?php
-require_once 'crudInventory.php';
+require_once 'CrudInventory.php';
 $inventory = new CrudInventory();
 $medicines = $inventory->getAllMedicines();
 ?>
@@ -11,6 +11,10 @@ $medicines = $inventory->getAllMedicines();
   <title>Medicine Inventory</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+  <!-- DataTables CSS  -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
   <style>
     .modal-content {
       border-radius: 1rem;
@@ -33,7 +37,7 @@ $medicines = $inventory->getAllMedicines();
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <table class="table table-bordered table-hover align-middle">
+      <table id="medicinesTable" class="table table-bordered table-hover align-middle">
         <thead class="table-dark">
           <tr>
             <th>ID</th>
@@ -57,10 +61,10 @@ $medicines = $inventory->getAllMedicines();
               <td><?= htmlspecialchars($medicine['dosage']) ?></td>
               <td><?= htmlspecialchars($medicine['type']) ?></td>
               <td class="text-center">
-                <a href="update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
+                <a href="../Inventory/update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <form action="del_medicine.php" method="POST" class="d-inline">
+                <form action="../Inventory/del_medicine.php" method="POST" class="d-inline">
                   <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
                   <button type="submit" onclick="return confirm('Delete this medicine?')" class="btn btn-sm btn-danger">
                     <i class="bi bi-trash"></i> Delete
@@ -84,16 +88,26 @@ $medicines = $inventory->getAllMedicines();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <?php include 'add_medicine.php'; ?>
+        <?php include '../Inventory/add_medicine.php'; ?>
       </div>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+
 <script>
   const modal = new bootstrap.Modal(document.getElementById('medicineModal'));
   document.getElementById('openModalBtn').addEventListener('click', () => modal.show());
+
+  $(document).ready(function() {
+    $('#medicinesTable').DataTable({
+      lengthChange: false
+    });
+  });
 </script>
 
 </body>

@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+require_once '../db.php';
 
 class CrudInventory {
     private $conn;
@@ -8,7 +8,6 @@ class CrudInventory {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
-
 
     public function addMedicine($name, $quantity, $expiration, $description, $dosage, $type) {
         $stmt = $this->conn->prepare("CALL add_medicine(?, ?, ?, ?, ?, ?)");
@@ -37,6 +36,4 @@ class CrudInventory {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
-
-
 ?>
