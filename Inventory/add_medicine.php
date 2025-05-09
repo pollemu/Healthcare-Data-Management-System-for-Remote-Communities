@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['name'], $_POST['quantity'], $_POST['expiration'],
         $_POST['description'], $_POST['dosage'], $_POST['type']
     );
-    header("Location: inventory.php");
+    header("Location: ../Nav/dashboard_panel.php?page=inventory");
     exit;
 }
 ?>
