@@ -136,8 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Add Patient</button>
+                    <a href="dashboard_panel.php?page=users" class="btn btn-secondary ml-2">Back</a>
                 </div>
-
             </form>
         </div>
     </div>
