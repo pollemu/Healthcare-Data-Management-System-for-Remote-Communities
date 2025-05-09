@@ -58,10 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </header>
 
 <main class="container">
-    <div class="card shadow mx-auto" style="max-width: 850px;">
-        <div class="card-body">
-            <h2 class="card-title text-center mb-4">Add New Patient</h2>
-            <form method="POST" enctype="multipart/form-data" id="addForm" name="addForm" onsubmit="event.preventDefault(); showConfirmation();">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white text-center">
+                    <h4 class="mb-0">Update Patient</h4>
+                </div>
+                <div class="card-body">
+                   <form method="POST" enctype="multipart/form-data" id="addForm" name="addForm" onsubmit="event.preventDefault(); showConfirmation();">
                 <!-- Form Fields -->
                 <div class="form-row">
                     <div class="form-group col-md-4">
@@ -138,7 +142,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-primary">Add Patient</button>
                     <a href="dashboard_panel.php?page=users" class="btn btn-secondary ml-2">Back</a>
                 </div>
-            </form>
+            </form> 
+                </div>
+            
         </div>
     </div>
 </main>
