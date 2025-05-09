@@ -9,7 +9,6 @@ class CrudInventory {
         $this->conn = $db->getConnection();
     }
 
-
     public function addMedicine($name, $quantity, $expiration, $description, $dosage, $type) {
         $stmt = $this->conn->prepare("CALL add_medicine(?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$name, $quantity, $expiration, $description, $dosage, $type]);
@@ -32,11 +31,10 @@ class CrudInventory {
     }
 
     public function getMedicine($id) {
-        $stmt = $this->conn->prepare("CALL get_medicine(?)");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $stmt = $this->conn->prepare("CALL get_medicine1(?)");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-
+}
 ?>
