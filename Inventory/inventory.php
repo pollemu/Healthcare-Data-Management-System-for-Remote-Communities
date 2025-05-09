@@ -11,20 +11,10 @@ $medicines = $inventory->getAllMedicines();
   <title>Medicine Inventory</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-
-  <!-- DataTables CSS  -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
-
   <style>
-    .modal-content {
-      border-radius: 1rem;
-    }
-    .table th, .table td {
-      vertical-align: middle;
-    }
-    .btn-sm i {
-      margin-right: 4px;
-    }
+    .modal-content { border-radius: 1rem; }
+    .table th, .table td { vertical-align: middle; }
+    .btn-sm i { margin-right: 0; }
   </style>
 </head>
 <body class="bg-light">
@@ -32,7 +22,9 @@ $medicines = $inventory->getAllMedicines();
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0"><i class="bi bi-capsule"></i> Medicine Inventory</h2>
-    <button id="openModalBtn" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Medicine</button>
+    <button id="openModalBtn" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i> Add New Medicine
+    </button>
   </div>
 
   <div class="card shadow-sm">
@@ -53,18 +45,18 @@ $medicines = $inventory->getAllMedicines();
         <tbody>
           <?php foreach ($medicines as $medicine): ?>
             <tr>
-              <td><?= $medicine['medicine_id'] ?></td>
+              <td><?= htmlspecialchars($medicine['medicine_id']) ?></td>
               <td><?= htmlspecialchars($medicine['medicine_name']) ?></td>
-              <td><?= $medicine['quantity'] ?></td>
-              <td><?= $medicine['expiration_date'] ?></td>
+              <td><?= htmlspecialchars($medicine['quantity']) ?></td>
+              <td><?= htmlspecialchars($medicine['expiration_date']) ?></td>
               <td><?= htmlspecialchars($medicine['description']) ?></td>
               <td><?= htmlspecialchars($medicine['dosage']) ?></td>
               <td><?= htmlspecialchars($medicine['type']) ?></td>
               <td class="text-center">
-                <a href="../Inventory/update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
+                <a href="update_medicine.php?id=<?= $medicine['medicine_id'] ?>" class="btn btn-sm btn-warning">
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <form action="../Inventory/del_medicine.php" method="POST" class="d-inline">
+                <form action="del_medicine.php" method="POST" class="d-inline">
                   <input type="hidden" name="id" value="<?= $medicine['medicine_id'] ?>">
                   <button type="submit" onclick="return confirm('Delete this medicine?')" class="btn btn-sm btn-danger">
                     <i class="bi bi-trash"></i> Delete
@@ -79,7 +71,7 @@ $medicines = $inventory->getAllMedicines();
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Add Modal -->
 <div class="modal fade" id="medicineModal" tabindex="-1" aria-labelledby="medicineModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-3">
@@ -88,26 +80,17 @@ $medicines = $inventory->getAllMedicines();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <?php include '../Inventory/add_medicine.php'; ?>
+        <?php include 'add_medicine.php'; ?>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-
 <script>
   const modal = new bootstrap.Modal(document.getElementById('medicineModal'));
   document.getElementById('openModalBtn').addEventListener('click', () => modal.show());
-
-  $(document).ready(function() {
-    $('#medicinesTable').DataTable({
-      lengthChange: false
-    });
-  });
 </script>
 
 </body>

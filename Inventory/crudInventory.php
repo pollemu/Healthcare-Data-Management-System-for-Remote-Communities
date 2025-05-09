@@ -31,9 +31,10 @@ class CrudInventory {
     }
 
     public function getMedicine($id) {
-        $stmt = $this->conn->prepare("CALL get_medicine(?)");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $stmt = $this->conn->prepare("CALL get_medicine1(?)");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 }
 ?>
