@@ -8,7 +8,6 @@ class DashboardFunctions {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
-    
 
     // ✅ Call: get_total_patients()
     public function getTotalPatients() {
@@ -17,22 +16,28 @@ class DashboardFunctions {
             die("Stored procedure failed");
         }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);  // fixed
-        $stmt->closeCursor(); // important for PDO after CALL
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);  // Only one row expected
+        $stmt->closeCursor(); // Important for freeing resources
         return $row['totalPatients'] ?? 0;
     }
 
-    // ✅ Call: get_average_patients_per_day()
+    // ✅ Fixed: Fetch average patients per day for the past 7 days
     public function getAveragePatientsPerDay() {
         $stmt = $this->conn->query("CALL get_average_patients_per_day()");
         if (!$stmt) {
             die("Stored procedure failed");
         }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);  // fixed
+        $total = 0;
+        $count = 0;
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Adjust field name if needed
+            $total += $row['avgPerDay'];
+            $count++;
+        }
+
         $stmt->closeCursor();
-        return round($row['avgPerDay'] ?? 0, 2);
-        
+        return $count > 0 ? round($total / $count, 2) : 0;
     }
 }
-

@@ -5,7 +5,11 @@ $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
 $totalPatients = $dashboardFunctions->getTotalPatients();
+<<<<<<< HEAD
 $avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay(); 
+=======
+$avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
+>>>>>>> ee75675308a9a8399e441331077f05071e445460
 
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ?>
@@ -92,7 +96,11 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                   <div>
                     <h5 class="card-title">Avg. Patients/Day</h5>
                     <div class="metric-label">This Month</div>
+<<<<<<< HEAD
                     <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatientsData) ?></p>
+=======
+                    <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatients) ?></p>
+>>>>>>> ee75675308a9a8399e441331077f05071e445460
                   </div>
                   <i class="bi bi-graph-up-arrow fs-1"></i>
                 </div>
@@ -139,4 +147,8 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         });
     });
 </script>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> ee75675308a9a8399e441331077f05071e445460
