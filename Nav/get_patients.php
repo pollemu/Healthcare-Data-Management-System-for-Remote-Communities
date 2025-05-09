@@ -61,7 +61,7 @@ $patients = $crud->getAll();
               data-height="<?= htmlspecialchars($p['height']) ?>"
               data-weight="<?= htmlspecialchars($p['weight']) ?>"
               data-date_of_birth="<?= htmlspecialchars($p['date_of_birth']) ?>"
-              data-image="<?= htmlspecialchars($p['photo']) ?>"
+              data-photo="<?= htmlspecialchars($p['photo']) ?>"
             >
               View
             </button>
@@ -97,7 +97,7 @@ $patients = $crud->getAll();
       <div class="modal-body">
         <div class="row">
           <div class="col-4 text-center">
-            <img id="modal-image" class="img-fluid rounded mb-3" style="max-height:180px; object-fit:cover;" />
+            <img id="modal-photo" class="img-fluid rounded mb-3" style="max-height:180px; object-fit:cover;" />
           </div>
           <div class="col-8">
             <p><strong>Name:</strong> <span id="modal-name"></span></p>
@@ -160,7 +160,7 @@ $patients = $crud->getAll();
       $('#modal-height').text(d.height);
       $('#modal-weight').text(d.weight);
       $('#modal-date_of_birth').text(d.dateOfBirth || d.date_of_birth);
-      $('#modal-image').attr('src', d.image || 'default-image.jpg');
+      $('#modal-photo').attr('src', d.photo || 'default-photo.jpg');
       $('#update-link').attr('href', `update_patient.php?id=${d.id}`);
       $('#delete-id').val(d.id);
     });
