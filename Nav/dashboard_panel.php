@@ -1,6 +1,5 @@
 <?php
 require_once 'dashboard_function.php';
-require_once '../crud.php';
 
 $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
@@ -8,10 +7,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 $totalPatients = $dashboardFunctions->getTotalPatients();
 $avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
 
-// Calculate average if $avgPatientsData is an array
-$avgPatients = is_array($avgPatientsData) ? round(array_sum($avgPatientsData) / count($avgPatientsData), 2) : $avgPatientsData;
-
-// Days of the week (for the X-axis)
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ?>
 
@@ -48,7 +43,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
           </a>
         </li>
         <li>
-          <a href="dashboard_panel.php?page=users" class="nav-link <?= $page == 'users' ? 'active' : '' ?>">
+          <a href="?page=users" class="nav-link <?= $page == 'users' ? 'active' : '' ?>">
             <i class="bi bi-people"></i> Patients
           </a>
         </li>
@@ -58,7 +53,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
           </a>
         </li>
         <li class="mt-auto">
-          <a href="login.php" class="nav-link" id="logoutLink">
+          <a href="login.php" class="nav-link">
             <i class="bi bi-box-arrow-right"></i> Logout
           </a>
         </li>
@@ -77,7 +72,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                   <div>
                     <h5 class="card-title">Total Patients</h5>
                     <div class="metric-label">Registered to Date</div>
-                    <p class="display-6 fw-bold mt-2"><?= $totalPatients ?></p>
+                    <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($totalPatients) ?></p>
                   </div>
                   <i class="bi bi-heart-pulse-fill fs-1"></i>
                 </div>
@@ -92,7 +87,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                   <div>
                     <h5 class="card-title">Avg. Patients/Day</h5>
                     <div class="metric-label">This Month</div>
-                    <p class="display-6 fw-bold mt-2"><?= $avgPatients ?></p>
+                    <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatients) ?></p>
                   </div>
                   <i class="bi bi-graph-up-arrow fs-1"></i>
                 </div>
@@ -100,11 +95,11 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             </div>
           </div>
 
-          <!-- Add more cards here if needed -->
+          <!-- You can add more cards here -->
         </div>
       <?php
         } elseif ($page == 'users') {
-          include 'index.php';
+          include 'get_patients.php';
         } elseif ($page == 'inventory') {
           include '../Inventory/inventory.php';
         } else {

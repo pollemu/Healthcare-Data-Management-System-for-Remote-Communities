@@ -11,8 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['dosage'],
         $_POST['type']
     );
-
-    header("Location: ../Nav/dashboard_panel.php?page=inventory");
+    header("Location: inventory.php");
     exit;
 }
 ?>
@@ -81,19 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
               </div>
 
-              <div class="col-12 d-flex justify-content-end mt-3">
-                <button type="submit" name="add" class="btn btn-primary">
-                  <i class="bi bi-plus-circle"></i> Add Medicine
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div class="col-12 d-flex justify-content-end">
+      <button type="submit" name="add" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Medicine
+      </button>
     </div>
   </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</form>

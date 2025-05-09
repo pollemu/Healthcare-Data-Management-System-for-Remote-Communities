@@ -16,26 +16,28 @@ class DashboardFunctions {
             die("Stored procedure failed");
         }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);  // fixed
-        $stmt->closeCursor(); // important for PDO after CALL
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);  // Only one row expected
+        $stmt->closeCursor(); // Important for freeing resources
         return $row['totalPatients'] ?? 0;
     }
 
-    // Fetch average patients per day for the past 7 days
+    // ✅ Fixed: Fetch average patients per day for the past 7 days
     public function getAveragePatientsPerDay() {
-        $stmt = $this->conn->query("CALL get_average_patients_per_day()"); // Update to use stored procedure
+        $stmt = $this->conn->query("CALL get_average_patients_per_day()");
         if (!$stmt) {
             die("Stored procedure failed");
         }
 
-        // Assuming this returns daily averages for the past week or a specified period
-        $patientsData = [];
+        $total = 0;
+        $count = 0;
+
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Example structure: day (e.g., Mon, Tue, etc.) and patient count
-            $patientsData[] = $row['avgPerDay']; // Adjust field as necessary
+            // Adjust field name if needed
+            $total += $row['avgPerDay'];
+            $count++;
         }
 
         $stmt->closeCursor();
-        return round($row['avgPerDay'] ?? 0, 2);
+        return $count > 0 ? round($total / $count, 2) : 0;
     }
 }
