@@ -5,7 +5,7 @@ $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
 $totalPatients = $dashboardFunctions->getTotalPatients();
-$avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
+$avgPatients = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
 
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ?>

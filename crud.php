@@ -12,7 +12,7 @@ class Crud {
     // // Create a new patient using the stored procedure
     public function create($first_name, $middle_name, $last_name, $age, $sex, $contact_number, $address, $blood_type, $date_of_birth, $height, $weight, $photo) {
         // Updated query to match the column names in the database
-        $stmt = $this->conn->prepare("CALL AddPatient1(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("CALL AddPatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$first_name, $middle_name, $last_name, $age, $sex, $contact_number, $address, $blood_type, $date_of_birth, $height, $weight, $photo]);
     }
     
@@ -25,8 +25,8 @@ class Crud {
     }
 
     // Update a patient's details using the stored procedure
-    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth) {
-        $stmt = $this->conn->prepare("CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo) {
+        $stmt = $this->conn->prepare("CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([
             $id,
             $first_name,
@@ -39,7 +39,8 @@ class Crud {
             $blood,
             $height,
             $weight,
-            $date_of_birth
+            $date_of_birth,
+            $photo
         ]);
     }
 

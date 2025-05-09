@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $crud = new Crud();
     $crud->delete($id);
-    header('Location: ../Nav/dashboard_panel.php?page=users');
+    header('Location: dashboard_panel.php?page=users');
     exit;
 }
 ?>

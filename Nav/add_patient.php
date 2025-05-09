@@ -1,21 +1,18 @@
 <?php
 require_once '../crud.php';
 
-$crud = new Crud();
-$patient = null;
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
     $age = $_POST['age'];
     $sex = $_POST['sex'];
-    $contact = '+63' . ltrim($_POST['contact'], '+63');
+    $contact_number = '+63' . ltrim($_POST['contact'], '+63');
     $address = $_POST['address'];
-    $blood = $_POST['blood'];
+    $blood_type = $_POST['blood'];
+    $date_of_birth = $_POST['date_of_birth'];
     $height = $_POST['height'];
     $weight = $_POST['weight'];
-    $date_of_birth = $_POST['date_of_birth'];
 
     $photo = null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
@@ -25,14 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
         if (in_array($imageFileType, $allowedTypes)) {
             move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
             $photo = $targetFile;
         }
     }
 
-    $crud->create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
+    $crud = new Crud();
+    $crud->create($first_name, $middle_name, $last_name, $age, $sex, $contact_number, $address, $blood_type, $date_of_birth, $height, $weight, $photo);
+
     header('Location: dashboard_panel.php?page=users');
     exit;
 }
@@ -64,89 +62,89 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-md-10 col-lg-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-info text-white text-center">
-                    <h4 class="mb-0">Add New Patient</h4>
+                    <h4 class="mb-0">Update Patient</h4>
                 </div>
                 <div class="card-body">
-                    <form id="addForm" method="POST" enctype="multipart/form-data">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>First Name</label>
-                                <input type="text" name="first_name" class="form-control" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Middle Name</label>
-                                <input type="text" name="middle_name" class="form-control">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Last Name</label>
-                                <input type="text" name="last_name" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Age</label>
-                                <input type="number" name="age" class="form-control" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Sex</label>
-                                <select name="sex" class="form-control">
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Contact</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">+63</span>
-                                    </div>
-                                    <input type="text" name="contact" class="form-control" pattern="[0-9]{10}" maxlength="10" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control" rows="2" required></textarea>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Blood Type</label>
-                                <select name="blood" class="form-control" required>
-                                    <?php foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $type): ?>
-                                        <option value="<?= $type ?>"><?= $type ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Height (cm)</label>
-                                <input type="number" step="0.01" name="height" class="form-control" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Weight (kg)</label>
-                                <input type="number" step="0.01" name="weight" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Date of Birth</label>
-                            <input type="date" name="date_of_birth" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Upload Photo</label>
-                            <input type="file" name="photo" class="form-control-file" accept="image/*">
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button type="button" class="btn btn-success px-4" onclick="showConfirmation()">Add Patient</button>
-                            <a href="dashboard_panel.php?page=users" class="btn btn-secondary px-4">Back</a>
-                        </div>
-                    </form>
+                   <form method="POST" enctype="multipart/form-data" id="addForm" name="addForm" onsubmit="event.preventDefault(); showConfirmation();">
+                <!-- Form Fields -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" class="form-control" required />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Middle Name</label>
+                        <input type="text" name="middle_name" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" class="form-control" required />
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>Age</label>
+                        <input type="number" name="age" class="form-control" required />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Sex</label>
+                        <select name="sex" class="form-control" required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Contact Number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">+63</span>
+                            </div>
+                            <input type="text" name="contact" class="form-control" pattern="[0-9]{10}" maxlength="10" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea name="address" class="form-control" rows="2" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Blood Type</label>
+                        <select name="blood" class="form-control" required>
+                            <?php foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $type): ?>
+                                <option value="<?= $type ?>"><?= $type ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Date of Birth</label>
+                        <input type="date" name="date_of_birth" class="form-control" required />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Height (cm)</label>
+                        <input type="number" step="0.01" name="height" class="form-control" required />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Weight (kg)</label>
+                        <input type="number" step="0.01" name="weight" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Upload Photo</label>
+                    <input type="file" name="photo" class="form-control-file" accept="image/*" />
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Add Patient</button>
+                    <a href="dashboard_panel.php?page=users" class="btn btn-secondary ml-2">Back</a>
+                </div>
+            </form> 
+                </div>
+            
         </div>
     </div>
 </main>
@@ -212,8 +210,7 @@ function showConfirmation() {
 }
 
 function submitFormAndRedirect() {
-    document.getElementById('addForm').submit(); // Submit the form
-    window.location.href = 'dashboard_panel.php?page=users'; // Redirect after submission
+    document.getElementById('addForm').submit();
 }
 </script>
 
