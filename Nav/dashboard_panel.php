@@ -8,9 +8,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 $totalPatients = $dashboardFunctions->getTotalPatients();
 $avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
 
+// Calculate average if $avgPatientsData is an array
+$avgPatients = is_array($avgPatientsData) ? round(array_sum($avgPatientsData) / count($avgPatientsData), 2) : $avgPatientsData;
+
 // Days of the week (for the X-axis)
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +58,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
           </a>
         </li>
         <li class="mt-auto">
-          <a href="login.php" class="nav-link">
+          <a href="login.php" class="nav-link" id="logoutLink">
             <i class="bi bi-box-arrow-right"></i> Logout
           </a>
         </li>
@@ -77,7 +79,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     <div class="metric-label">Registered to Date</div>
                     <p class="display-6 fw-bold mt-2"><?= $totalPatients ?></p>
                   </div>
-                  <i class="bi bi-heart-pulse-fill"></i>
+                  <i class="bi bi-heart-pulse-fill fs-1"></i>
                 </div>
               </div>
             </div>
@@ -92,13 +94,13 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     <div class="metric-label">This Month</div>
                     <p class="display-6 fw-bold mt-2"><?= $avgPatients ?></p>
                   </div>
-                  <i class="bi bi-graph-up-arrow"></i>
+                  <i class="bi bi-graph-up-arrow fs-1"></i>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- You can add more cards here -->
+          <!-- Add more cards here if needed -->
         </div>
       <?php
         } elseif ($page == 'users') {
@@ -113,6 +115,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   </div>
 </div>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.getElementById('logoutLink').addEventListener('click', function(event) {
@@ -133,4 +136,3 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     });
 </script>
 </html>
-
