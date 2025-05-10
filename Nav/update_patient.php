@@ -22,25 +22,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = $_POST['weight'];
     $date_of_birth = $_POST['date_of_birth'];
 
-$photo = $patient['photo']; // retain existing photo
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-    $targetDir = "uploads/";
-    $photoName = basename($_FILES['photo']['name']);
-    $targetFile = $targetDir . $photoName;
+    // Use existing photo if no new photo is uploaded
+    $photo = $_POST['existing_photo'] ?? null;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+        $targetDir = "uploads/";
+        $photoName = basename($_FILES['photo']['name']);
+        $targetFile = $targetDir . $photoName;
 
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
 
-    if (in_array($imageFileType, $allowedTypes)) {
-        move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
-        $photo = $targetFile; // update photo only if valid upload
+        if (in_array($imageFileType, $allowedTypes)) {
+            move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
+            $photo = $targetFile;
+        }
     }
-}
 
-$crud->update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
-
-header('Location: dashboard_panel.php?page=users');
-
+    $crud->update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
+    header('Location: dashboard_panel.php?page=users');
     exit;
 }
 ?>
@@ -78,7 +77,6 @@ header('Location: dashboard_panel.php?page=users');
                     <form id="updateForm" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?= $patient['patient_id'] ?>" />
 
-                        <!-- Name Inputs -->
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>First Name</label>
@@ -94,46 +92,71 @@ header('Location: dashboard_panel.php?page=users');
                             </div>
                         </div>
 
-                        <!-- More Inputs (age, sex, contact, address, etc.) -->
-                        <!-- ... Keep from Diaz version ... -->
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Age</label>
+                                <input type="number" name="age" class="form-control" value="<?= htmlspecialchars($patient['age']) ?>" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Sex</label>
+                                <select name="sex" class="form-control">
+                                    <option value="M" <?= $patient['sex'] === 'M' ? 'selected' : '' ?>>Male</option>
+                                    <option value="F" <?= $patient['sex'] === 'F' ? 'selected' : '' ?>>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Contact</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">+63</span>
+                                    </div>
+                                    <input type="text" name="contact" class="form-control" value="<?= substr($patient['contact_number'], 3) ?>" pattern="[0-9]{10}" maxlength="10" required>
+                                </div>
+                            </div>
+                        </div>
 
-                        <!-- Upload Photo -->
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea name="address" class="form-control" rows="2" required><?= htmlspecialchars($patient['address']) ?></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Blood Type</label>
+                                <select name="blood" class="form-control" required>
+                                    <?php foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $type): ?>
+                                        <option value="<?= $type ?>" <?= $patient['blood_type'] == $type ? 'selected' : '' ?>><?= $type ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Height (cm)</label>
+                                <input type="number" step="0.01" name="height" class="form-control" value="<?= htmlspecialchars($patient['height']) ?>" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Weight (kg)</label>
+                                <input type="number" step="0.01" name="weight" class="form-control" value="<?= htmlspecialchars($patient['weight']) ?>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="date_of_birth" class="form-control" value="<?= htmlspecialchars($patient['date_of_birth']) ?>" required>
+                        </div>
+
                         <div class="form-group">
                             <label>Upload Photo</label>
                             <input type="file" name="photo" class="form-control-file" accept="image/*" onchange="previewNewPhoto(event)">
-                            <?php if (!empty($patient['photo'])): ?>
-                                <div class="mt-3">
-                                    <img src="<?= htmlspecialchars($patient['photo']) ?>" alt="Current Photo" class="img-thumbnail" id="currentPhoto">
-                                </div>
-                            <?php endif; ?>
-                        </div>
-
-                        <!-- Trigger Modal -->
-                        <div class="text-center mt-4">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#confirmModal">Confirm</button>
-                            <a href="dashboard_panel.php?page=users" class="btn btn-secondary px-4">Back</a>
-                        </div>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmModalLabel">Confirm Patient Info</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Please confirm the updated patient details.</p>
-                                        <!-- You can inject values via JS here -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success">Update Patient</button>
-                                    </div>
-                                </div>
+                            <!-- Hidden field for current photo -->
+                            <input type="hidden" name="existing_photo" value="<?= htmlspecialchars($patient['photo']) ?>">
+                            <div class="mt-3">
+                                <img src="<?= !empty($patient['photo']) ? htmlspecialchars($patient['photo']) : '' ?>" alt="Current Photo" class="img-thumbnail" id="currentPhoto">
                             </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-success px-4" onclick="showConfirmation()">Update Patient</button>
+                            <a href="dashboard_panel.php?page=users" class="btn btn-secondary px-4">Back</a>
                         </div>
                     </form>
                     <?php else: ?>
@@ -145,39 +168,14 @@ header('Location: dashboard_panel.php?page=users');
     </div>
 </main>
 
-<script>
-function previewNewPhoto(event) {
-    const reader = new FileReader();
-    reader.onload = function () {
-        const img = document.getElementById('currentPhoto');
-        if (img) img.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
-</script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
-                </div>
-            </div>
-        </div>
-    </form>
-    <?php else: ?>
-    <div class="alert alert-danger text-center">Patient not found.</div>
-    <?php endif; ?>
-</main>
-
 <!-- Confirmation Modal -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">Confirm Patient Update</h5>
-        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-      </div>
+        <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Confirm Patient Update</h5>
+            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+        </div>
       <div class="modal-body">
         <ul class="list-group mb-3">
           <li class="list-group-item"><strong>Name:</strong> <span id="confName"></span></li>
@@ -191,7 +189,7 @@ function previewNewPhoto(event) {
           <li class="list-group-item"><strong>Date of Birth:</strong> <span id="confDOB"></span></li>
         </ul>
         <div class="text-center">
-          <img id="confPhoto" class="modal-img rounded border" alt="Photo Preview" style="max-height:150px;">
+          <img id="confPhoto" class="modal-img rounded border" alt="Photo Preview">
         </div>
       </div>
       <div class="modal-footer">
@@ -202,45 +200,43 @@ function previewNewPhoto(event) {
   </div>
 </div>
 
-<!-- JS Dependencies -->
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- JS Logic -->
 <script>
 function showConfirmation() {
-  const form = document.forms['updateForm'];
+    const form = document.forms['updateForm'];
+    const fullName = `${form['first_name'].value} ${form['middle_name'].value} ${form['last_name'].value}`;
+    document.getElementById('confName').innerText = fullName;
+    document.getElementById('confAge').innerText = form['age'].value;
+    document.getElementById('confSex').innerText = form['sex'].value === 'M' ? 'Male' : 'Female';
+    document.getElementById('confContact').innerText = '+63' + form['contact'].value;
+    document.getElementById('confAddress').innerText = form['address'].value;
+    document.getElementById('confBlood').innerText = form['blood'].value;
+    document.getElementById('confHeight').innerText = form['height'].value;
+    document.getElementById('confWeight').innerText = form['weight'].value;
+    document.getElementById('confDOB').innerText = form['date_of_birth'].value;
 
-  const fullName = `${form['first_name'].value} ${form['middle_name'].value} ${form['last_name'].value}`;
-  document.getElementById('confName').innerText = fullName;
-  document.getElementById('confAge').innerText = form['age'].value;
-  document.getElementById('confSex').innerText = form['sex'].value === 'M' ? 'Male' : 'Female';
-  document.getElementById('confContact').innerText = '+63' + form['contact'].value;
-  document.getElementById('confAddress').innerText = form['address'].value;
-  document.getElementById('confBlood').innerText = form['blood'].value;
-  document.getElementById('confHeight').innerText = form['height'].value;
-  document.getElementById('confWeight').innerText = form['weight'].value;
-  document.getElementById('confDOB').innerText = form['date_of_birth'].value;
+    const fileInput = form['photo'];
+    const photoPreview = document.getElementById('confPhoto');
 
-  const fileInput = form['photo'];
-  const photoPreview = document.getElementById('confPhoto');
-  if (fileInput.files && fileInput.files[0]) {
-    photoPreview.src = URL.createObjectURL(fileInput.files[0]);
-  } else {
-    photoPreview.src = document.getElementById('currentPhoto')?.src || '';
-  }
+    if (fileInput.files && fileInput.files.length > 0) {
+        photoPreview.src = URL.createObjectURL(fileInput.files[0]);
+    } else {
+        const currentPhoto = document.getElementById('currentPhoto');
+        photoPreview.src = currentPhoto ? currentPhoto.src : '';
+    }
 
-  $('#confirmModal').modal('show');
+    $('#confirmModal').modal('show');
 }
 
 function previewNewPhoto(event) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    document.getElementById('currentPhoto').src = e.target.result;
-  };
-  reader.readAsDataURL(event.target.files[0]);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('currentPhoto').src = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
 }
 </script>
-
 </body>
 </html>

@@ -2,22 +2,22 @@
 require_once '../crud.php';
 
 $crud = new Crud();
-$patient = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
     $age = $_POST['age'];
     $sex = $_POST['sex'];
-    $contact = '+63' . ltrim($_POST['contact'], '+63');
+    $contact_number = '+63' . ltrim($_POST['contact'], '+63');
     $address = $_POST['address'];
-    $blood = $_POST['blood'];
+    $blood_type = $_POST['blood'];
     $height = $_POST['height'];
     $weight = $_POST['weight'];
     $date_of_birth = $_POST['date_of_birth'];
 
-    $photo = null;
+    $photo = null; // Default to null if no photo is uploaded
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
         $targetDir = "uploads/";
         $photoName = basename($_FILES['photo']['name']);
@@ -25,18 +25,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
         if (in_array($imageFileType, $allowedTypes)) {
             move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
-            $photo = $targetFile;
+            $photo = $targetFile; // Save the image path
         }
     }
 
-    $crud->create($first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo);
-    header('Location: dashboard_panel.php?page=users');
+    $crud->create(
+        $first_name,
+        $middle_name,
+        $last_name,
+        $age,
+        $sex,
+        $contact_number,
+        $address,
+        $blood_type,
+        $date_of_birth,
+        $height,
+        $weight,
+        $photo  
+    );
+
+    header('Location: dashboard_panel.php?page=users');  // Redirect to the patient list
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,9 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-<header class="bg-primary text-white text-center py-3 mb-4">
-    <h1>Healthcare Admin Panel</h1>
-</header>
 
 <main class="container">
     <div class="row justify-content-center">
@@ -203,9 +214,9 @@ function showConfirmation() {
     const fileInput = form['photo'];
     const photoPreview = document.getElementById('confPhoto');
     if (fileInput.files && fileInput.files[0]) {
-        photoPreview.src = URL.createObjectURL(fileInput.files[0]);
+        photoPreview.src = URL.createObjectURL(fileInput.files[0]);  // Display the photo preview
     } else {
-        photoPreview.src = '';
+        photoPreview.src = '';  // In case no photo is uploaded
     }
 
     $('#confirmModal').modal('show');
@@ -213,9 +224,9 @@ function showConfirmation() {
 
 function submitFormAndRedirect() {
     document.getElementById('addForm').submit(); // Submit the form
-    window.location.href = 'dashboard_panel.php?page=users'; // Redirect after submission
 }
 </script>
 
 </body>
 </html>
+
