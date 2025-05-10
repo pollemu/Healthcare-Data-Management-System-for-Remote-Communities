@@ -1,15 +1,23 @@
 <?php
-require_once 'db.php';
+require_once '../db.php';
 $pdo = (new Database())->getConnection();
 
-if (isset($_POST['search'])) {
+$search_term = '';
+$results = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     $search_term = $_POST['search_term'];
     $stmt = $pdo->prepare("CALL searchIllness(:search_term)");
     $stmt->bindParam(':search_term', $search_term);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    // Show all data by default
+    $stmt = $pdo->query("CALL getAllIllnesses()");
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,9 +32,12 @@ if (isset($_POST['search'])) {
         <h1>Search for Illness and Medicine</h1>
         
         <form method="POST">
-            <input type="text" name="search_term" placeholder="Search for illness..." required>
-            <button type="submit" name="search">Search</button>
-        </form>
+    <input type="text" name="search_term" placeholder="Search for illness..." value="<?= htmlspecialchars($search_term) ?>" required>
+    <button type="submit" name="search">Search</button>
+    <?php if (!empty($search_term)): ?>
+        <a href="javascript:history.back()" class="reset-button">Clear Search</a>
+    <?php endif; ?>
+</form>
         
         <?php if (isset($results)): ?>
             <div class="results">
