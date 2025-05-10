@@ -24,24 +24,13 @@ class Crud {
         return $stmt->fetch();
     }
 
-    // Update a patient's details using the stored procedure
-    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth) {
-        $stmt = $this->conn->prepare("CALL UpdatePatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([
-            $id,
-            $first_name,
-            $middle_name,
-            $last_name,
-            $age,
-            $sex,
-            $contact,
-            $address,
-            $blood,
-            $height,
-            $weight,
-            $date_of_birth
-        ]);
-    }
+    public function update($id, $first_name, $middle_name, $last_name, $age, $sex, $contact, $address, $blood, $height, $weight, $date_of_birth, $photo_path) {
+    $stmt = $this->conn->prepare("CALL UpdatePatientTest(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([
+        $id, $first_name, $middle_name, $last_name, $age, $sex, $contact,
+        $address, $blood, $height, $weight, $date_of_birth, $photo_path
+    ]);
+}
 
     // Delete a patient by ID using the stored procedure
     public function delete($id) {

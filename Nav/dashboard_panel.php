@@ -5,7 +5,7 @@ $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
 $totalPatients = $dashboardFunctions->getTotalPatients();
-$avgPatients = $dashboardFunctions->getAveragePatientsPerDay();  // Renamed correctly
+$avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay(); 
 
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ?>
@@ -52,10 +52,15 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             <i class="bi bi-box"></i> Inventory
           </a>
         </li>
-        <li class="mt-auto">
-          <a href="login.php" id="logoutLink" class="nav-link"> <!-- Added ID for JS -->
-            <i class="bi bi-box-arrow-right"></i> Logout
+        <a href="?page=illness" class="nav-link <?= $page == 'illness' ? 'active' : '' ?>">
+            <i class="bi bi-thermometer-half"></i> Illness
           </a>
+        </li>
+        <li class="mt-auto">
+          <a href="login.php" class="nav-link" id="logoutLink">
+  <i class="bi bi-box-arrow-right"></i> Logout
+</a>
+
         </li>
       </ul>
     </div>
@@ -74,7 +79,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     <div class="metric-label">Registered to Date</div>
                     <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($totalPatients) ?></p>
                   </div>
-                  <i class="bi bi-heart-pulse-fill"></i>
+                  <i class="bi bi-heart-pulse-fill fs-1"></i>
                 </div>
               </div>
             </div>
@@ -87,22 +92,28 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                   <div>
                     <h5 class="card-title">Avg. Patients/Day</h5>
                     <div class="metric-label">This Month</div>
-                    <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatients) ?></p>
+                    <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatientsData) ?></p>
                   </div>
-                  <i class="bi bi-graph-up-arrow"></i>
+                  <i class="bi bi-graph-up-arrow fs-1"></i>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       <?php
         } elseif ($page == 'users') {
           include 'get_patients.php';
         } elseif ($page == 'inventory') {
           include '../Inventory/inventory.php';
+        } elseif ($page == 'illness') {
+          include '../Illnesses/dashboard.php'; 
         } else {
           echo "<h2>Page not found!</h2>";
         }
+
+        $page = $_GET['page'] ?? 'dashboard';
+
       ?>
     </div>
   </div>

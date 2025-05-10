@@ -22,11 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = $_POST['weight'];
     $date_of_birth = $_POST['date_of_birth'];
 
-$photo = $patient['photo']; // retain existing photo
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-    $targetDir = "uploads/";
-    $photoName = basename($_FILES['photo']['name']);
-    $targetFile = $targetDir . $photoName;
+    // Use existing photo if no new photo is uploaded
+    $photo = $_POST['existing_photo'] ?? null;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+        $targetDir = "uploads/";
+        $photoName = basename($_FILES['photo']['name']);
+        $targetFile = $targetDir . $photoName;
 
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
@@ -216,13 +217,15 @@ function showConfirmation() {
     document.getElementById('confWeight').innerText = form['weight'].value;
     document.getElementById('confDOB').innerText = form['date_of_birth'].value;
 
-  const fileInput = form['photo'];
-  const photoPreview = document.getElementById('confPhoto');
-  if (fileInput.files && fileInput.files[0]) {
-    photoPreview.src = URL.createObjectURL(fileInput.files[0]);
-  } else {
-    photoPreview.src = document.getElementById('currentPhoto')?.src || '';
-  }
+    const fileInput = form['photo'];
+    const photoPreview = document.getElementById('confPhoto');
+
+    if (fileInput.files && fileInput.files.length > 0) {
+        photoPreview.src = URL.createObjectURL(fileInput.files[0]);
+    } else {
+        const currentPhoto = document.getElementById('currentPhoto');
+        photoPreview.src = currentPhoto ? currentPhoto.src : '';
+    }
 
     $('#confirmModal').modal('show');
 }
