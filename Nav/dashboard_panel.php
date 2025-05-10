@@ -5,7 +5,7 @@ $dashboardFunctions = new DashboardFunctions();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
 $totalPatients = $dashboardFunctions->getTotalPatients();
-$avgPatientsData = $dashboardFunctions->getAveragePatientsPerDay();  // Fetch data for the past week
+$avgPatients = $dashboardFunctions->getAveragePatientsPerDay();  // Renamed correctly
 
 $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ?>
@@ -53,7 +53,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
           </a>
         </li>
         <li class="mt-auto">
-          <a href="login.php" class="nav-link">
+          <a href="login.php" id="logoutLink" class="nav-link"> <!-- Added ID for JS -->
             <i class="bi bi-box-arrow-right"></i> Logout
           </a>
         </li>
@@ -74,7 +74,7 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     <div class="metric-label">Registered to Date</div>
                     <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($totalPatients) ?></p>
                   </div>
-                  <i class="bi bi-heart-pulse-fill fs-1"></i>
+                  <i class="bi bi-heart-pulse-fill"></i>
                 </div>
               </div>
             </div>
@@ -89,13 +89,11 @@ $daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     <div class="metric-label">This Month</div>
                     <p class="display-6 fw-bold mt-2"><?= htmlspecialchars($avgPatients) ?></p>
                   </div>
-                  <i class="bi bi-graph-up-arrow fs-1"></i>
+                  <i class="bi bi-graph-up-arrow"></i>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- You can add more cards here -->
         </div>
       <?php
         } elseif ($page == 'users') {
