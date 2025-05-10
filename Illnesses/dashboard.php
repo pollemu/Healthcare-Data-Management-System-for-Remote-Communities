@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+require_once '../db.php';
 $pdo = (new Database())->getConnection();
 
 if (isset($_POST['search'])) {

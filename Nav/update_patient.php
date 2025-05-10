@@ -22,7 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = $_POST['weight'];
     $date_of_birth = $_POST['date_of_birth'];
 
-    $photo = $patient['photo'];
+    // Use existing photo if no new photo is uploaded
+    $photo = $_POST['existing_photo'] ?? null;
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
         $targetDir = "uploads/";
         $photoName = basename($_FILES['photo']['name']);
@@ -146,11 +147,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <label>Upload Photo</label>
                             <input type="file" name="photo" class="form-control-file" accept="image/*" onchange="previewNewPhoto(event)">
-                            <?php if (!empty($patient['photo'])): ?>
-                                <div class="mt-3">
-                                    <img src="<?= htmlspecialchars($patient['photo']) ?>" alt="Current Photo" class="img-thumbnail" id="currentPhoto">
-                                </div>
-                            <?php endif; ?>
+                            <!-- Hidden field for current photo -->
+                            <input type="hidden" name="existing_photo" value="<?= htmlspecialchars($patient['photo']) ?>">
+                            <div class="mt-3">
+                                <img src="<?= !empty($patient['photo']) ? htmlspecialchars($patient['photo']) : '' ?>" alt="Current Photo" class="img-thumbnail" id="currentPhoto">
+                            </div>
                         </div>
 
                         <div class="text-center mt-4">
@@ -218,10 +219,12 @@ function showConfirmation() {
 
     const fileInput = form['photo'];
     const photoPreview = document.getElementById('confPhoto');
-    if (fileInput.files && fileInput.files[0]) {
+
+    if (fileInput.files && fileInput.files.length > 0) {
         photoPreview.src = URL.createObjectURL(fileInput.files[0]);
     } else {
-        photoPreview.src = document.getElementById('currentPhoto')?.src || '';
+        const currentPhoto = document.getElementById('currentPhoto');
+        photoPreview.src = currentPhoto ? currentPhoto.src : '';
     }
 
     $('#confirmModal').modal('show');
