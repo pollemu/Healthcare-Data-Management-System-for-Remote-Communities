@@ -73,20 +73,6 @@ $patients = $crud->getAll();
   </div>
 </main>
 
-<!-- Add Patient Modal -->
-<div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content p-4">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <?php include 'add_patient.php'; ?>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- View Patient Modal -->
 <div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -102,7 +88,7 @@ $patients = $crud->getAll();
           <div class="col-8">
             <p><strong>Name:</strong> <span id="modal-name"></span></p>
             <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-            <p><strong>DOB:</strong> <span id="modal-date_of_birth"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="modal-date_of_birth"></span></p>
             <p><strong>Address:</strong> <span id="modal-address"></span></p>
             <p><strong>Age:</strong> <span id="modal-age"></span></p>
             <p><strong>Contact:</strong> <span id="modal-contact"></span></p>
